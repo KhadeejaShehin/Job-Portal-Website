@@ -1,0 +1,653 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <title>JobBoard &mdash; Website Template by Colorlib</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="Free-Template.co" />
+    <link rel="shortcut icon" href="ftco-32x32.png">
+
+    <link rel="stylesheet" href="{% static 'web/css/custom-bs.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/jquery.fancybox.min.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/bootstrap-select.min.css' %}">
+    <link rel="stylesheet" href="{% static 'web/fonts/icomoon/style.css' %}">
+    <link rel="stylesheet" href="{% static 'web/fonts/line-icons/style.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/animate.min.css' %}">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="{% static 'web/css/style.css' %}">
+  </head>
+  <body id="top">
+
+  <div id="overlayer"></div>
+  <div class="loader">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+
+<div class="site-wrap">
+
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+
+
+
+    <header class="site-navbar mt-3">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="site-logo col-6"><a href="index.html">JobBoard</a></div>
+
+          <nav class="mx-auto site-navigation">
+  <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
+    <li><a href="{% url 'Index' %}" class="nav-link active">Home</a></li>
+    <li><a href="{% url 'about_page' %}">About</a></li>
+    <li><a href="{% url 'jobs_page' %}">Job Listing</a></li>
+
+
+    <li class="has-children">
+      <a href="#" >Categories</a>
+      <ul class="dropdown">
+        {% for i in Categories %}
+        <li>
+          <a href="{% url 'Filtered_items' cat_name=i.Name %}"
+             class="{% if i.Name == jobs.Category_Name %} active {% endif %}">
+            {{ i.Name }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </li>
+
+
+    <li><a href="{% url 'contact' %}">Contact</a></li>
+
+    <li class="d-lg-none"><a href="{% url 'applied_page' %}"><span class="mr-2">+</span> Applied Job</a></li>
+              <li class="d-lg-none"><a href="login.html">Log In</a></li>
+            </ul>
+          </nav>
+
+          <div class="right-cta-menu text-right d-flex align-items-center col-6">
+  <div class="ml-auto">
+    <a href="{% url 'applied_page' %}"
+       class="btn btn-outline-white btn-sm border-width-2 d-none d-lg-inline-block px-2 py-1 small">
+      <span class="mr-1 icon-add"></span>Applied Job
+    </a>
+
+    {% if request.session.Username %}
+      <a href="{% url 'user_logout' %}"
+         class="btn btn-primary btn-sm border-width-2 d-none d-lg-inline-block px-2 py-1 small fw-semibold">
+        <span class="mr-1 icon-lock_outline"></span>{{ request.session.Username }} / Logout
+      </a>
+    {% else %}
+      <a href="{% url 'sign_in' %}"
+         class="nav-item nav-link text-success fw-semibold px-2 py-1 small rounded d-none d-lg-inline-block">
+        Register / Login <i class="fa fa-user ms-1"></i>
+      </a>
+    {% endif %}
+  </div>
+
+  <!-- Mobile toggle -->
+  <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3">
+    <span class="icon-menu h3 m-0 p-0 mt-2"></span>
+  </a>
+</div>
+
+
+        </div>
+      </div>
+    </header>
+
+    <section class="home-section section-hero overlay bg-image" style="background-image: url({% static 'web/images/hero_1.jpg' %});" id="home-section">
+
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-12">
+            <div class="mb-5 text-center">
+              <h1 class="text-white font-weight-bold">The Easiest Way To Get Your Dream Job</h1>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate est, consequuntur perferendis.</p>
+            </div>
+          <form method="get" action="{% url 'jobs_page' %}" class="search-jobs-form">
+  <div class="row mb-5">
+
+    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+      <select class="form-select w-100 border-0 shadow-none p-3" name="category">
+        <option value="">All Categories</option>
+        {% for category in Categories %}
+          <option value="{{ category.Name }}" {% if request.GET.category == category.Name %}selected{% endif %}>
+            {{ category.Name }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+      <select class="form-select w-100 border-0 shadow-none p-3" name="location">
+        <option value="">All Locations</option>
+        {% for location in locations %}
+          <option value="{{ location }}" {% if request.GET.location == location %}selected{% endif %}>
+            {{ location }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+      <select class="form-select w-100 border-0 shadow-none p-3" name="job_type">
+        <option value="">All Job Types</option>
+        {% for jt in jobtype %}
+          <option value="{{ jt }}" {% if request.GET.job_type == jt %}selected{% endif %}>
+            {{ jt }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0 d-grid">
+      <button type="submit"
+              class="btn btn-primary btn-lg w-100 px-4 shadow-none">
+        <span class="icon-search me-2"></span> Search Job
+      </button>
+    </div>
+
+  </div>
+</form>
+
+
+
+
+
+              <div class="row">
+                <div class="col-md-12 popular-keywords">
+                  <h3>Trending Keywords:</h3>
+                  <ul class="keywords list-unstyled m-0 p-0">
+                    <li><a href="#" class="">UI Designer</a></li>
+                    <li><a href="#" class="">Python</a></li>
+                    <li><a href="#" class="">Developer</a></li>
+                  </ul>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <a href="#next" class="scroll-button smoothscroll">
+        <span class=" icon-keyboard_arrow_down"></span>
+      </a>
+
+    </section>
+
+    <section class="py-5 bg-image overlay-primary fixed overlay" id="next1" style="background-image:url({% static 'web/images/hero_1.jpg' %})};">
+      <div class="container">
+        <div class="row mb-5 justify-content-center">
+          <div class="col-md-7 text-center">
+            <h2 class="section-title mb-2 text-white">JobBoard Site Stats</h2>
+            <p class="lead text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita unde officiis recusandae sequi excepturi corrupti.</p>
+          </div>
+        </div>
+        <div class="row pb-0 block__19738 section-counter">
+
+          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+            <div class="d-flex align-items-center justify-content-center mb-2">
+              <strong class="number" data-number="1930">0</strong>
+            </div>
+            <span class="caption">Candidates</span>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+            <div class="d-flex align-items-center justify-content-center mb-2">
+              <strong class="number" data-number="54">0</strong>
+            </div>
+            <span class="caption">Jobs Posted</span>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+            <div class="d-flex align-items-center justify-content-center mb-2">
+              <strong class="number" data-number="120">0</strong>
+            </div>
+            <span class="caption">Jobs Filled</span>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+            <div class="d-flex align-items-center justify-content-center mb-2">
+              <strong class="number" data-number="550">0</strong>
+            </div>
+            <span class="caption">Companies</span>
+          </div>
+
+
+        </div>
+      </div>
+    </section>
+
+
+
+<section class="site-section" id="next">
+  <div class="container">
+
+
+    <h1 class="text-center mb-5 fw-bold" style="font-size: 2.2rem; color: #2c3e50;">
+      <i class="fas fa-briefcase text-primary me-2 bold"></i> JOB LISTINGS
+    </h1>
+
+    <div class="job-listings">
+      {% for job in jobs %}
+      <div class="job-item p-4 mb-4 border rounded shadow-sm">
+        <div class="row align-items-center">
+
+
+          <div class="col-md-2 col-3 text-center">
+            <img src="{{ job.Logo.url }}" alt="Logo"
+                 class="img-fluid border rounded"
+                 style="width: 150px; height: 120px; object-fit: contain;">
+          </div>
+
+
+          <div class="col-md-6 col-9">
+            <span class="text-muted small text-uppercase d-block mb-1">{{ job.Category_Name }}</span>
+            <h4 class="fw-bold mb-1" style="color:#2c3e50;">{{ job.Company_Name }}</h4>
+            <p class="text-success fw-semibold mb-2" style="font-size:1.1rem;">{{ job.Job_Role }}</p>
+
+            <div class="d-flex flex-wrap" style="gap: 20px; font-size: 0.95rem; color:#444;">
+              <span><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ job.Job_Location }}</span>
+              <span><i class="far fa-clock text-primary me-2"></i>{{ job.Job_Type }}</span>
+            </div>
+          </div>
+
+
+          <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <a class="btn btn-primary btn-sm px-3 py-2 mb-2" href="{% url 'single_item' item_id=job.id  %}">Apply Now</a>
+            <div class="text-muted" style="font-size: 0.9rem;">
+              <i class="far fa-calendar-alt text-primary me-2"></i>Deadline: {{ job.Job_Date }}
+            </div>
+          </div>
+<!--           <div class="job-actions mt-3 text-end" style="margin-left:22px;">-->
+<!--        <a href="#" class="btn btn-outline-danger">-->
+<!--          <span class="icon-heart-o me-1"></span> Save Job-->
+<!--        </a>-->
+<!--      </div>-->
+        </div>
+      </div>
+      {% empty %}
+      <div class="p-4 border rounded text-center">No jobs found.</div>
+      {% endfor %}
+    </div>
+
+
+    <div class="text-center mt-4">
+      <a class="btn btn-primary py-3 px-5" href="{% url 'jobs_page' %}">Browse More Jobs</a>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+    <section class="py-5 bg-image overlay-primary fixed overlay" style="background-image: url({% static 'web/images/hero_1.jpg' %});">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <h2 class="text-white">Looking For A Job?</h2>
+            <p class="mb-0 text-white lead">Lorem ipsum dolor sit amet consectetur adipisicing elit tempora adipisci impedit.</p>
+          </div>
+          <div class="col-md-3 ml-auto">
+            <a href="{% url 'jobs_page' %}" class="btn btn-warning btn-block btn-lg">Apply</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="site-section py-4">
+      <div class="container">
+
+        <div class="row align-items-center">
+          <div class="col-12 text-center mt-4 mb-5">
+            <div class="row justify-content-center">
+              <div class="col-md-7">
+                <h2 class="section-title mb-2">Company We've Helped</h2>
+                <p class="lead">Porro error reiciendis commodi beatae omnis similique voluptate rerum ipsam fugit mollitia ipsum facilis expedita tempora suscipit iste</p>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-6 col-lg-3 col-md-6 text-center">
+            <img src="{% static 'web/images/logo_mailchimp.svg' %}" alt="Image" class="img-fluid logo-1">
+          </div>
+          <div class="col-6 col-lg-3 col-md-6 text-center">
+            <img src="{% static 'web/images/logo_paypal.svg' %}" alt="Image" class="img-fluid logo-2">
+          </div>
+          <div class="col-6 col-lg-3 col-md-6 text-center">
+            <img src="{% static 'web/images/logo_stripe.svg' %}" alt="Image" class="img-fluid logo-3">
+          </div>
+          <div class="col-6 col-lg-3 col-md-6 text-center">
+            <img src="{% static 'web/images/logo_visa.svg' %}" alt="Image" class="img-fluid logo-4">
+          </div>
+
+          <div class="col-6 col-lg-3 col-md-6 text-center">
+            <img src="{% static 'web/images/logo_apple.svg' %}" alt="Image" class="img-fluid logo-5">
+          </div>
+          <div class="col-6 col-lg-3 col-md-6 text-center">
+            <img src="{% static 'web/images/logo_tinder.svg' %}" alt="Image" class="img-fluid logo-6">
+          </div>
+          <div class="col-6 col-lg-3 col-md-6 text-center">
+            <img src="{% static 'web/images/logo_sony.svg' %}" alt="Image" class="img-fluid logo-7">
+          </div>
+          <div class="col-6 col-lg-3 col-md-6 text-center">
+            <img src="{% static 'web/images/logo_airbnb.svg' %}" alt="Image" class="img-fluid logo-8">
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="bg-light pt-5 testimony-full">
+
+        <div class="owl-carousel single-carousel">
+
+
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-6 align-self-center text-center text-lg-left">
+                <blockquote>
+                  <p>&ldquo;Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae.&rdquo;</p>
+                  <p><cite> &mdash; Corey Woods, @Dribbble</cite></p>
+                </blockquote>
+              </div>
+              <div class="col-lg-6 align-self-end text-center text-lg-right">
+                <img src="{% static 'web/images/person_transparent_2.png' %}" alt="Image" class="img-fluid mb-0">
+              </div>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-6 align-self-center text-center text-lg-left">
+                <blockquote>
+                  <p>&ldquo;Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae.&rdquo;</p>
+                  <p><cite> &mdash; Chris Peters, @Google</cite></p>
+                </blockquote>
+              </div>
+              <div class="col-lg-6 align-self-end text-center text-lg-right">
+                <img src="{% static 'web/images/person_transparent.png' %}" alt="Image" class="img-fluid mb-0">
+              </div>
+            </div>
+          </div>
+
+      </div>
+
+    </section>
+
+    <section class="pt-5 bg-image overlay-primary fixed overlay" style="background-image: url({% static 'web/images/hero_1.jpg' %});">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 align-self-center text-center text-md-left mb-5 mb-md-0">
+            <h2 class="text-white">Get The Mobile Apps</h2>
+            <p class="mb-5 lead text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit tempora adipisci impedit.</p>
+            <p class="mb-0">
+              <a href="#" class="btn btn-dark btn-md px-4 border-width-2"><span class="icon-apple mr-3"></span>App Store</a>
+              <a href="#" class="btn btn-dark btn-md px-4 border-width-2"><span class="icon-android mr-3"></span>Play Store</a>
+            </p>
+          </div>
+          <div class="col-md-6 ml-auto align-self-end">
+            <img src="{% static 'web/images/apps.png' %}" alt="Free Website Template by Free-Template.co" class="img-fluid">
+          </div>
+        </div>
+      </div>
+    </section>
+  <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+
+<div id="chat-container" style="position: fixed; bottom: 25px; right: 25px; z-index: 9999;">
+
+
+    <div id="chat-box" style="
+        display: none;
+        flex-direction: column;
+        width: 320px;
+        height: 450px;
+        background: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(12px);
+        border-radius: 18px;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+        transform: translateY(20px);
+        opacity: 0;
+        transition: all 0.3s ease;
+        position: relative;
+        margin-bottom: 10px;
+    ">
+
+
+        <div style="
+            background: rgba(44, 44, 44, 0.38);
+            color: #fff;
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        ">
+            <span>🧠 Ask Me Anything!</span>
+            <span onclick="toggleChat()" style="cursor: pointer; font-size: 18px;">✖</span>
+        </div>
+
+
+        <div id="messages" style="
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+            font-size: 12.5px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        "></div>
+
+
+        <div style="padding: 10px; border-top: 1px solid #ccc; display: flex; gap: 5px;">
+            <input type="text" id="user-input" placeholder="Type your message..."
+                style="flex: 1; padding: 8px 12px; border-radius: 20px; border: 1px solid #ccc; outline: none;" />
+            <button onclick="sendMessage()" style="
+                padding: 8px 16px;
+                background-color: #333;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                cursor: pointer;
+            ">Send</button>
+        </div>
+    </div>
+
+    <!-- Floating Toggle Button -->
+    <button id="chat-toggle" onclick="toggleChat()" style="
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #333;
+        color: white;
+        font-size: 20px;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    ">
+        <img src="{% static 'web/images/images.png' %}" alt="Chat" style="width: 50px; height: 50px; border-radius: 50%;" />
+    </button>
+</div>
+
+
+<script>
+function toggleChat() {
+    const box = document.getElementById('chat-box');
+    if (box.style.display === 'flex') {
+        box.style.opacity = 0;
+        box.style.transform = "translateY(20px)";
+        setTimeout(() => { box.style.display = 'none'; }, 300);
+    } else {
+        box.style.display = 'flex';
+        setTimeout(() => {
+            box.style.opacity = 1;
+            box.style.transform = "translateY(0)";
+        }, 50);
+    }
+}
+
+function sendMessage() {
+    const input = document.getElementById('user-input');
+    const message = input.value.trim();
+    if (!message) return;
+
+    addMessage(`You: ${message}`, 'user');
+    input.value = '';
+
+    fetch("{% url 'chatbot_view' %}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({message})
+    })
+    .then(res => res.json())
+    .then(data => {
+        addMessage(data.reply, 'bot', true);
+    })
+    .catch(err => {
+        addMessage("⚠️ Sorry, something went wrong. Please try again.", 'bot');
+        console.error(err);
+    });
+}
+
+function addMessage(msg, sender, isHTML=false) {
+    const messages = document.getElementById('messages');
+    const div = document.createElement('div');
+    div.className = sender === 'user' ? 'user-message' : 'bot-message';
+    div.style.background = sender==='user' ? '#333' : 'rgba(44,44,44,0.3)';
+    div.style.color = sender==='user' ? '#fff' : '#000';
+    div.style.padding = '8px 12px';
+    div.style.borderRadius = '12px';
+    div.style.maxWidth = '90%';
+    div.style.alignSelf = sender==='user' ? 'flex-end' : 'flex-start';
+    div.style.fontSize = '13px';
+    if(isHTML){
+        div.innerHTML = msg;
+    } else {
+        div.textContent = msg;
+    }
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+}
+</script>
+
+
+<style>
+#messages a {
+    color: #1e90ff;
+    text-decoration: underline;
+}
+#messages a:hover {
+    text-decoration: none;
+}
+</style>
+
+
+
+
+
+
+    <footer class="site-footer">
+
+      <a href="#top" class="smoothscroll scroll-top">
+        <span class="icon-keyboard_arrow_up"></span>
+      </a>
+
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-6 col-md-3 mb-4 mb-md-0">
+            <h3>Search Trending</h3>
+            <ul class="list-unstyled">
+              <li><a href="#">Web Design</a></li>
+              <li><a href="#">Graphic Design</a></li>
+              <li><a href="#">Web Developers</a></li>
+              <li><a href="#">Python</a></li>
+              <li><a href="#">HTML5</a></li>
+              <li><a href="#">CSS3</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md-3 mb-4 mb-md-0">
+            <h3>Company</h3>
+            <ul class="list-unstyled">
+              <li><a href="{% url 'Index' %}">Home</a></li>
+              <li><a href="{% url 'about_page' %}">About</a></li>
+              <li><a href="{% url 'jobs_page' %}">Job Listing</a></li>
+              <li><a href="{% url 'contact' %}">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md-3 mb-4 mb-md-0">
+            <h3>Support</h3>
+            <ul class="list-unstyled">
+              <li><a href="#">Support</a></li>
+              <li><a href="#">Privacy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md-3 mb-4 mb-md-0">
+            <h3>Contact Us</h3>
+            <div class="footer-social">
+              <a href="#"><span class="icon-facebook"></span></a>
+              <a href="#"><span class="icon-twitter"></span></a>
+              <a href="#"><span class="icon-instagram"></span></a>
+              <a href="#"><span class="icon-linkedin"></span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="row text-center">
+          <div class="col-12">
+            <p class="copyright"><small>
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved<i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >JobBoard</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></small></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+    <!-- SCRIPTS -->
+    <script src="{% static 'web/js/jquery.min.js' %}"></script>
+    <script src="{% static 'web/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'web/js/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'web/js/stickyfill.min.js' %}"></script>
+    <script src="{% static 'web/js/jquery.fancybox.min.js' %}"></script>
+    <script src="{% static 'web/js/jquery.easing.1.3.js' %}"></script>
+
+    <script src="{% static 'web/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'web/js/jquery.animateNumber.min.js' %}"></script>
+    <script src="{% static 'web/js/owl.carousel.min.js' %}"></script>
+
+    <script src="{% static 'web/js/bootstrap-select.min.js' %}"></script>
+
+    <script src="{% static 'web/js/custom.js' %}"></script>
+
+
+  </body>
+</html>

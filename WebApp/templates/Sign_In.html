@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<title>Login V8</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{% static 'login/images/icons/favicon.ico' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'login/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'login/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'login/vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'login/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'login/vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'login/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'login/vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'login/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'login/css/main.css' %}">
+<!--===============================================================================================-->
+</head>
+<body>
+
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form p-l-55 p-r-55 p-t-178" method="post" action="{% url 'user_login' %}">
+					{% csrf_token %}
+					<span class="login100-form-title">
+						Login
+					</span>
+
+					<div class="wrap-input100 validate-input m-b-16" data-validate="Please enter username">
+						<input class="input100" type="text" name="username" placeholder="Username">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Please enter password">
+						<input class="input100" type="password" name="pass1" placeholder="Password">
+						<span class="focus-input100"></span>
+					</div><br>
+
+<!--					<div class="text-right p-t-13 p-b-23">-->
+<!--&lt;!&ndash;						<span class="txt1">&ndash;&gt;-->
+<!--&lt;!&ndash;							Forgot&ndash;&gt;-->
+<!--&lt;!&ndash;						</span>&ndash;&gt;-->
+
+<!--						<a href="#" class="txt2">-->
+<!--							Username / Password?-->
+<!--						</a>-->
+<!--					</div>-->
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							 Login
+						</button>
+					</div>
+
+					<div class="flex-col-c p-t-170 p-b-40">
+<!--						<span class="txt1 p-b-9">-->
+<!--							Don’t have an account?-->
+<!--						</span>-->
+
+						<a href="{% url 'sign_up' %}" class="txt3">
+							Sign up now
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+<!--===============================================================================================-->
+	<script src="{% static 'login/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'login/vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'login/vendor/bootstrap/js/popper.js"></script>
+	<script src="{% static 'login/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'login/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'login/vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'login/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'login/vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'login/js/main.js' %}"></script>
+<!--<script>-->
+<!--        function newfunction(){-->
+<!--            name = document.myform.name.value;-->
+<!--            place = document.myform.place.value;-->
+<!--            mob = document.myform.mobile.value;-->
+<!--            email = document.myform.email.value;-->
+<!--            addr = document.myform.address.value;-->
+<!--            pin = document.myform.pin.value;-->
+<!--            state = document.myform.state.value;-->
+<!--            msg = document.myform.message.value;-->
+
+<!--            if(name == "" || name== null){-->
+<!--                alert("Name Can't be null or blank...!")-->
+<!--            }-->
+<!--            else if (place =="" || place == null){-->
+<!--                alert("Place can't be blank ...!")-->
+<!--            }-->
+<!--            else if (mob==""){-->
+<!--                alert("Mobile Number can't be blank ...!")-->
+<!--            }-->
+<!--            else if (mob.length!=10){-->
+<!--                alert("Invalid Mobile Number")-->
+<!--            }-->
+<!--            else if (mob.length!=10){-->
+<!--                alert("Invalid Mobile Number")-->
+<!--            }-->
+<!--            else if (email==""){-->
+<!--                alert("Email can't be blank ...!")-->
+<!--            }-->
+<!--            else if (addr==""){-->
+<!--                alert("Address can't be blank ...!")-->
+<!--            }-->
+<!--            else if (pin=="" || pin == null){-->
+<!--                alert("Pin Number can't be blank ...!")-->
+<!--            }-->
+<!--            else if (state==""){-->
+<!--                alert("State can't be blank ...!")-->
+<!--            }-->
+<!--            else if (msg==""){-->
+<!--                alert("Message can't be blank ...!")-->
+<!--            }-->
+
+<!--        }-->
+<!--    </script>-->
+
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% if messages %}
+    {% for i in messages %}
+        {% if i.tags == 'success' %}
+            <script>
+                swal('{{ i }}', '', 'success');
+            </script>
+        {% elif i.tags == 'error' %}
+            <script>
+                swal('{{ i }}', '', 'error');
+            </script>
+        {% elif i.tags == 'warning' %}
+            <script>
+                swal('{{ i }}', '', 'warning');
+            </script>
+        {% else %}
+            <script>
+                swal('{{ i }}', '', 'info');
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+</body>
+</html>

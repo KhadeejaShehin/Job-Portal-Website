@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="col-12">
+    <div class="bg-secondary rounded h-100 p-4">
+        <h4 class="card-title">Category Listing</h4>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped text-center">
+                <thead class="table-dark">
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Mobile</th>
+                      <th>Education</th>
+                      <th>Experience</th>
+                      <th>Skills</th>
+                      <th>Resume</th>
+                      <th>Company Name</th>
+                      <th>Job Role</th>
+                      <th>Description</th>
+                    </tr>
+                </thead>
+                {% for application in applied %}
+                <tr>
+
+                    <td>{{ application.Name }}</td>
+                    <td>{{ application.Email }}</td>
+                    <td>{{ application.Mobile }}</td>
+                    <td>{{ application.Education }}</td>
+                    <td>{{ application.Experience }}</td>
+                    <td>{{ application.Skills }}</td>
+                    <td>
+                        {% if application.Resume %}
+                        <a href="{{ application.Resume.url }}" target="_blank">Download</a>
+                        {% else %}
+                        No Resume
+                        {% endif %}
+                    </td>
+                    <td>{{ application.Company_name }}</td>
+                    <td>{{ application.Job_role }}</td>
+                    <td>{{ application.Description }}</td>
+                     </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="11" class="text-center">No applications found.</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+
+
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% if messages %}
+    {% for i in messages %}
+        {% if i.tags == 'success' %}
+            <script>
+                swal('{{ i }}', '', 'success');
+            </script>
+        {% elif i.tags == 'error' %}
+            <script>
+                swal('{{ i }}', '', 'error');
+            </script>
+        {% elif i.tags == 'warning' %}
+            <script>
+                swal('{{ i }}', '', 'warning');
+            </script>
+        {% else %}
+            <script>
+                swal('{{ i }}', '', 'info');
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+</body>
+</html>
+{% endblock %}

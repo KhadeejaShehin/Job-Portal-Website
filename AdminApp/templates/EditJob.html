@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Job</title>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="card bg-dark text-white shadow-lg border-0 rounded-4">
+        <div class="card-header bg-secondary text-white text-center rounded-top-4">
+            <h3 class="mb-0">Update Job</h3>
+        </div>
+        <div class="card-body p-4">
+            <form method="post" action="{% url 'update_job' job_id=job.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Category</label>
+                    <select class="form-select bg-dark text-white border-secondary" name="category_name" required>
+                        <option value="" disabled selected>Select Category</option>
+                          <option selected="">{{job.Category_Name}}</option>
+                        {% for i in cat %}
+                            <option>{{i.Name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Company</label>
+                    <select class="form-select bg-dark text-white border-secondary" name="company_name" required>
+                        <option value="" disabled selected>Select Company</option>
+                        <option>{{job.Company_Name}}</option>
+                                {% for j in company %}
+                                    <option>{{j.Company_Name}}</option>
+                                {% endfor %}
+                    </select>
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Company Logo</label>
+                    <img src="{{ job.Logo.url }}" alt="Company Logo"  style="width: 80px; height: auto;">
+                    <input type="file" class="form-control bg-dark text-white border-secondary" name="logo" required>
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Job Location</label>
+                    <input type="text" class="form-control bg-dark text-white border-secondary"   name="job_location" placeholder="Enter job location"  value="{{job.Job_Location}}" required>
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Job Role</label>
+                    <input type="text" class="form-control bg-dark text-white border-secondary" name="job_role" placeholder="Enter job role"  value="{{job.Job_Role}}" required>
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Job Description</label>
+                    <textarea class="form-control bg-dark text-white border-secondary" rows="4" name="description" placeholder="Write a brief job description" required>{{job.Description}}</textarea>
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Job Type</label>
+                    <select class="form-select bg-dark text-white border-secondary" name="job_type" required>
+                        <option value="" disabled selected>{{job.Job_Type}}</option>
+                        <option value="Full-Time">Full-Time</option>
+                        <option value="Part-Time">Part-Time</option>
+                        <option value="Freshers">Freshers</option>
+                        <option value="Temporary">Temporary</option>
+                    </select>
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Job Date</label>
+                    <input type="date" class="form-control bg-dark text-white border-secondary" name="job_date"
+                           value="{{ job.Job_Date|date:'Y-m-d' }}" required>
+                </div>
+
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-danger px-4">Submit</button>
+                    <button type="reset" class="btn btn-secondary px-4">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+{% endblock %}
+
